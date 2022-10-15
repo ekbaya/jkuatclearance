@@ -1,7 +1,13 @@
-import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:student_clearance/components/OfficersComponent.dart';
+import 'package:student_clearance/components/RequestsComponent.dart';
+import 'package:student_clearance/constants/pages.dart';
+import 'package:student_clearance/providers/application.dart';
 
+import '../components/ApprovedRequestsComponent.dart';
+import '../components/PageNotFoundComponent.dart';
 import '../widgets/SideBarItem.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,6 +20,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    Application app = Provider.of<Application>(context);
     return Scaffold(
       body: Row(
         children: [
@@ -39,9 +46,10 @@ class _HomePageState extends State<HomePage> {
                   const ListTile(
                     leading: CircleAvatar(
                       radius: 16,
+                      backgroundColor: Colors.white,
                     ),
                     title: Text(
-                      "Elias Baya",
+                      "Neema Mutheu",
                       style: TextStyle(
                         color: Colors.white,
                       ),
@@ -55,28 +63,64 @@ class _HomePageState extends State<HomePage> {
                     color: Colors.grey,
                   ),
                   SideBarItem(
-                    onHover: (value) {},
                     title: "Requests",
+                    page: requestsPage,
                     icon: Icons.pages,
-                    index: 0,
+                    onTap: () {
+                      app.switchPage(requestsPage);
+                    },
+                    onHover: (value) {
+                      if (value) {
+                        app.switchActivePage(requestsPage);
+                      } else {
+                        app.switchActivePage(app.selectedPage);
+                      }
+                    },
                   ),
                   SideBarItem(
-                    onHover: (value) {},
                     title: "Approved",
+                    page: approvedPage,
                     icon: Icons.handshake,
-                    index: 1,
+                    onTap: () {
+                      app.switchPage(approvedPage);
+                    },
+                    onHover: (value) {
+                      if (value) {
+                        app.switchActivePage(approvedPage);
+                      } else {
+                        app.switchActivePage(app.selectedPage);
+                      }
+                    },
                   ),
                   SideBarItem(
-                    onHover: (value) {},
                     title: "Officers",
+                    page: officersPage,
                     icon: Icons.group,
-                    index: 1,
+                    onTap: () {
+                      app.switchPage(officersPage);
+                    },
+                    onHover: (value) {
+                      if (value) {
+                        app.switchActivePage(officersPage);
+                      } else {
+                        app.switchActivePage(app.selectedPage);
+                      }
+                    },
                   ),
                   SideBarItem(
-                    onHover: (value) {},
                     title: "Change Password",
+                    page: changePasswordPage,
                     icon: Icons.settings,
-                    index: 1,
+                    onTap: () {
+                      app.switchPage(changePasswordPage);
+                    },
+                    onHover: (value) {
+                      if (value) {
+                        app.switchActivePage(changePasswordPage);
+                      } else {
+                        app.switchActivePage(app.selectedPage);
+                      }
+                    },
                   ),
                 ],
               ),
@@ -202,154 +246,8 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
-                const SizedBox(
-                  height: 30,
-                ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: Text(
-                    "Requests",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Expanded(
-                  child: Card(
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          InkWell(
-                            onTap: () {},
-                            child: Container(
-                              width: 120,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                  color: Colors.teal,
-                                  borderRadius: BorderRadius.circular(3)),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: const [
-                                  Icon(
-                                    Icons.add_circle,
-                                    color: Colors.white,
-                                    size: 20,
-                                  ),
-                                  Text(
-                                    "Add Request",
-                                    style: TextStyle(color: Colors.white),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: DataTable2(
-                              columnSpacing: 12,
-                              horizontalMargin: 12,
-                              minWidth: 600,
-                              columns: const [
-                                DataColumn2(
-                                  label: Text('NO.'),
-                                  size: ColumnSize.L,
-                                ),
-                                DataColumn(
-                                  label: Text('CHAIRMAN'),
-                                ),
-                                DataColumn(
-                                  label: Text('FACULTY'),
-                                ),
-                                DataColumn(
-                                  label: Text('LIBRARY'),
-                                ),
-                                DataColumn(
-                                  label: Text('HOUSE KEEPER'),
-                                  numeric: true,
-                                ),
-                                DataColumn(
-                                  label: Text('DEAN'),
-                                  numeric: true,
-                                ),
-                                DataColumn(
-                                  label: Text('SPORTS'),
-                                  numeric: true,
-                                ),
-                                DataColumn(
-                                  label: Text('REGISTRAR'),
-                                  numeric: true,
-                                ),
-                                DataColumn(
-                                  label: Text('FINANCE'),
-                                  numeric: true,
-                                ),
-                              ],
-                              rows: List<DataRow>.generate(
-                                100,
-                                (index) => DataRow(
-                                  cells: [
-                                    DataCell(Text((index + 1).toString())),
-                                    DataCell(
-                                      TextButton(
-                                        onPressed: (() {}),
-                                        child: const Text("Completed"),
-                                      ),
-                                    ),
-                                    DataCell(
-                                      TextButton(
-                                        onPressed: (() {}),
-                                        child: const Text("Completed"),
-                                      ),
-                                    ),
-                                    DataCell(
-                                      TextButton(
-                                        onPressed: (() {}),
-                                        child: const Text("Completed"),
-                                      ),
-                                    ),
-                                    DataCell(
-                                      TextButton(
-                                        onPressed: (() {}),
-                                        child: const Text("Completed"),
-                                      ),
-                                    ),
-                                    DataCell(
-                                      TextButton(
-                                        onPressed: (() {}),
-                                        child: const Text("Completed"),
-                                      ),
-                                    ),
-                                    DataCell(
-                                      TextButton(
-                                        onPressed: (() {}),
-                                        child: const Text("Completed"),
-                                      ),
-                                    ),
-                                    DataCell(
-                                      TextButton(
-                                        onPressed: (() {}),
-                                        child: const Text("Completed"),
-                                      ),
-                                    ),
-                                    DataCell(
-                                      TextButton(
-                                        onPressed: (() {}),
-                                        child: const Text("Completed"),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                //page Contents
+                getCurrentPage(app.selectedPage),
               ],
             ),
           ),
@@ -429,5 +327,20 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  Widget getCurrentPage(String page) {
+    switch (page) {
+      case requestsPage:
+        return const RequestsComponent();
+      case approvedPage:
+        return const ApprovedRequestsComponent();
+      case officersPage:
+        return const OfficersComponent();
+      case changePasswordPage:
+        return const PageNotFountPage();
+      default:
+        return const PageNotFountPage();
+    }
   }
 }

@@ -5,6 +5,7 @@ ThemeData buildTheme(brightness) {
   var baseTheme = ThemeData(brightness: brightness);
 
   return baseTheme.copyWith(
+    shadowColor: Colors.white,
     textTheme: GoogleFonts.latoTextTheme(baseTheme.textTheme),
   );
 }
