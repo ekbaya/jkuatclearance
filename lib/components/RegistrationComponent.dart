@@ -1,11 +1,127 @@
 import 'package:flutter/material.dart';
-import 'package:student_clearance/pages/home.dart';
+// ignore: depend_on_referenced_packages
+import 'package:select_form_field/select_form_field.dart';
 
-class RegistrationComponent extends StatelessWidget {
+import 'package:student_clearance/pages/home.dart';
+import 'package:student_clearance/widgets/RequiredLabel.dart';
+
+class RegistrationComponent extends StatefulWidget {
   final Function login;
   const RegistrationComponent({Key? key, required this.login})
       : super(key: key);
 
+  @override
+  State<RegistrationComponent> createState() => _RegistrationComponentState();
+}
+
+class _RegistrationComponentState extends State<RegistrationComponent> {
+  String school = "";
+  String department = "";
+  String role = "";
+  bool registeringAStudent = false;
+  bool termsAndConditionsChecked = false;
+  bool obscureText = true;
+  final List<Map<String, dynamic>> schools = [
+    {
+      'value': 'scit',
+      'label': 'School of Computing and Information Technology',
+    },
+    {
+      'value': 'library',
+      'label': 'Library',
+    },
+    {
+      'value': 'games',
+      'label': 'Games & Sports',
+    },
+    {
+      'value': 'hostels',
+      'label': 'Hostels',
+    },
+    {
+      'value': 'finance',
+      'label': 'Finance',
+    },
+    {
+      'value': 'dean',
+      'label': 'Dean',
+    }
+  ];
+
+  final List<Map<String, dynamic>> departments = [
+    {
+      'value': 'it',
+      'label': 'Information Technology',
+    },
+    {
+      'value': 'cs',
+      'label': 'Computer Science',
+    },
+    {
+      'value': 'games',
+      'label': 'Games & Sports',
+    },
+    {
+      'value': 'hostels',
+      'label': 'Hostels',
+    },
+    {
+      'value': 'finance',
+      'label': 'Finance',
+    },
+    {
+      'value': 'dean',
+      'label': 'Dean',
+    }
+  ];
+  final List<Map<String, dynamic>> roles = [
+    {
+      'value': 'student',
+      'label': 'Student',
+    },
+    {
+      'value': 'librarian',
+      'label': 'Librarian',
+    },
+    {
+      'value': 'dean of students',
+      'label': 'Dean of Students',
+    },
+    {
+      'value': 'director of sports & games',
+      'label': 'Director of Sports & Games',
+    },
+    {
+      'value': 'house keeper',
+      'label': 'House Keeper',
+    },
+    {
+      'value': 'charperson',
+      'label': 'Charperson',
+    },
+    {
+      'value': 'registrar',
+      'label': 'Registrar',
+    },
+    {
+      'value': 'students’ finance office',
+      'label': 'Students’ Finance Officer',
+    },
+  ];
+  final TextEditingController firstNameTextEditingController =
+      TextEditingController();
+  final TextEditingController lastNameTextEditingController =
+      TextEditingController();
+  final TextEditingController emailTextEditingController =
+      TextEditingController();
+  final TextEditingController phoneTextEditingController =
+      TextEditingController();
+  final TextEditingController registrationTextEditingController =
+      TextEditingController();
+  final TextEditingController yearAndLevelTextEditingController =
+      TextEditingController();
+  final TextEditingController passwordTextEditingController =
+      TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -29,14 +145,12 @@ class RegistrationComponent extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "First Name",
-                style: TextStyle(fontSize: 16),
-              ),
+              getRequiredLabel("First Name"),
               const SizedBox(
                 height: 10,
               ),
               TextField(
+                controller: firstNameTextEditingController,
                 onChanged: (value) {},
                 decoration: const InputDecoration(
                   filled: true,
@@ -47,14 +161,12 @@ class RegistrationComponent extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              const Text(
-                "Last Name",
-                style: TextStyle(fontSize: 16),
-              ),
+              getRequiredLabel("Last Name"),
               const SizedBox(
                 height: 10,
               ),
               TextField(
+                controller: lastNameTextEditingController,
                 onChanged: (value) {},
                 decoration: const InputDecoration(
                   filled: true,
@@ -65,14 +177,12 @@ class RegistrationComponent extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              const Text(
-                "Email",
-                style: TextStyle(fontSize: 16),
-              ),
+              getRequiredLabel("Email"),
               const SizedBox(
                 height: 10,
               ),
               TextField(
+                controller: emailTextEditingController,
                 onChanged: (value) {},
                 decoration: const InputDecoration(
                   filled: true,
@@ -83,14 +193,12 @@ class RegistrationComponent extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              const Text(
-                "Phone",
-                style: TextStyle(fontSize: 16),
-              ),
+              getRequiredLabel("Phone"),
               const SizedBox(
                 height: 10,
               ),
               TextField(
+                controller: phoneTextEditingController,
                 onChanged: (value) {},
                 decoration: const InputDecoration(
                   filled: true,
@@ -101,91 +209,145 @@ class RegistrationComponent extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              const Text(
-                "Select Your Department",
-                style: TextStyle(fontSize: 16),
-              ),
+              getRequiredLabel("Select Your School/Faculty/Institute"),
               const SizedBox(
                 height: 10,
               ),
-              TextField(
-                onChanged: (value) {},
+              SelectFormField(
                 decoration: const InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
                   border: OutlineInputBorder(),
                 ),
+                items: schools,
+                onChanged: (val) {
+                  setState(() {
+                    school = val;
+                  });
+                },
+                onSaved: (val) {
+                  setState(() {
+                    school = val!;
+                  });
+                },
               ),
               const SizedBox(
                 height: 20,
               ),
-              const Text(
-                "Select Your Role",
-                style: TextStyle(fontSize: 16),
-              ),
+              getRequiredLabel("Select Your Department"),
               const SizedBox(
                 height: 10,
               ),
-              TextField(
-                onChanged: (value) {},
+              SelectFormField(
                 decoration: const InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
                   border: OutlineInputBorder(),
                 ),
+                items: departments,
+                onChanged: (val) {
+                  setState(() {
+                    department = val;
+                  });
+                },
+                onSaved: (val) {
+                  setState(() {
+                    department = val!;
+                  });
+                },
               ),
               const SizedBox(
                 height: 20,
               ),
-              const Text(
-                "Registration Number",
-                style: TextStyle(fontSize: 16),
-              ),
+              getRequiredLabel("Select Your Role"),
               const SizedBox(
                 height: 10,
               ),
-              TextField(
-                onChanged: (value) {},
+              SelectFormField(
                 decoration: const InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
                   border: OutlineInputBorder(),
                 ),
+                items: roles,
+                onChanged: (val) {
+                  setState(() {
+                    role = val;
+                  });
+                  if (role == "student") {
+                    setState(() {
+                      registeringAStudent = true;
+                    });
+                  } else {
+                    setState(() {
+                      registeringAStudent = false;
+                    });
+                  }
+                },
+                onSaved: (val) {
+                  setState(() {
+                    role = val!;
+                  });
+                },
               ),
               const SizedBox(
                 height: 20,
               ),
-              const Text(
-                "Year and Level (e.g 4.2)",
-                style: TextStyle(fontSize: 16),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              TextField(
-                onChanged: (value) {},
-                decoration: const InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  border: OutlineInputBorder(),
+              Visibility(
+                visible: registeringAStudent,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    getRequiredLabel("Registration Number"),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextField(
+                      controller: registrationTextEditingController,
+                      onChanged: (value) {},
+                      decoration: const InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    getRequiredLabel("Year and Level e.g 4.2"),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextField(
+                      controller: yearAndLevelTextEditingController,
+                      onChanged: (value) {},
+                      decoration: const InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Text(
-                "Password",
-                style: TextStyle(fontSize: 16),
-              ),
+              getRequiredLabel("Password"),
               const SizedBox(
                 height: 10,
               ),
               TextField(
-                obscureText: true,
+                controller: passwordTextEditingController,
+                obscureText: obscureText,
                 onChanged: (value) {},
                 decoration: InputDecoration(
                   suffixIcon: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        obscureText ? obscureText = false : obscureText = true;
+                      });
+                    },
                     icon: const Icon(Icons.remove_red_eye),
                   ),
                   filled: true,
@@ -199,14 +361,35 @@ class RegistrationComponent extends StatelessWidget {
               Row(
                 children: [
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      setState(() {
+                        termsAndConditionsChecked
+                            ? termsAndConditionsChecked = false
+                            : termsAndConditionsChecked = true;
+                      });
+                    },
                     child: Container(
                       width: 20,
                       height: 20,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: termsAndConditionsChecked
+                            ? Colors.teal
+                            : Colors.white,
                         borderRadius: BorderRadius.circular(3),
-                        border: Border.all(width: 1.0, color: Colors.grey),
+                        border: Border.all(
+                            width: 1.0,
+                            color: termsAndConditionsChecked
+                                ? Colors.teal
+                                : Colors.grey),
+                      ),
+                      child: Center(
+                        child: termsAndConditionsChecked
+                            ? const Icon(
+                                Icons.check,
+                                color: Colors.white,
+                                size: 10,
+                              )
+                            : const SizedBox(),
                       ),
                     ),
                   ),
@@ -265,7 +448,7 @@ class RegistrationComponent extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              login.call();
+              widget.login.call();
             },
             child: RichText(
               text: const TextSpan(

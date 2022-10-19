@@ -1,5 +1,9 @@
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
+import 'package:syncfusion_flutter_pdf/pdf.dart';
+// ignore: depend_on_referenced_packages
+import 'package:universal_io/io.dart';
 
 class ApprovedRequestsComponent extends StatelessWidget {
   const ApprovedRequestsComponent({super.key});
@@ -97,7 +101,28 @@ class ApprovedRequestsComponent extends StatelessWidget {
                               const DataCell(Text("4.2")),
                               DataCell(
                                 InkWell(
-                                  onTap: () {},
+                                  onTap: () async {
+                                    //Load the existing PDF document.
+                                    final PdfDocument document = PdfDocument(
+                                        inputBytes: File(
+                                                'assets/students-clearance-form.pdf')
+                                            .readAsBytesSync());
+                                    //Get the existing PDF page.
+                                    final PdfPage page = document.pages[0];
+                                    //Draw text in the PDF page.
+                                    page.graphics.drawString(
+                                        'Hello World!',
+                                        PdfStandardFont(
+                                            PdfFontFamily.helvetica, 12),
+                                        brush: PdfSolidBrush(PdfColor(0, 0, 0)),
+                                        bounds:
+                                            const Rect.fromLTWH(0, 0, 150, 20));
+                                    //Save the document.
+                                    File('assets/output.pdf')
+                                        .writeAsBytes(await document.save());
+                                    //Dispose the document.
+                                    document.dispose();
+                                  },
                                   child: Container(
                                     width: 100,
                                     height: 30,

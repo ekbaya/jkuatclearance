@@ -2,11 +2,22 @@ import 'package:flutter/material.dart';
 
 import '../pages/home.dart';
 
-class LoginComponent extends StatelessWidget {
+class LoginComponent extends StatefulWidget {
   final Function createAccount;
   const LoginComponent({Key? key, required this.createAccount})
       : super(key: key);
 
+  @override
+  State<LoginComponent> createState() => _LoginComponentState();
+}
+
+class _LoginComponentState extends State<LoginComponent> {
+  bool obscureText = true;
+  bool rememberMe = false;
+  final TextEditingController emailTextEditingController =
+      TextEditingController();
+  final TextEditingController passwordTextEditingController =
+      TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -38,6 +49,7 @@ class LoginComponent extends StatelessWidget {
               height: 10,
             ),
             TextField(
+              controller: emailTextEditingController,
               onChanged: (value) {},
               decoration: const InputDecoration(
                 filled: true,
@@ -63,11 +75,16 @@ class LoginComponent extends StatelessWidget {
               height: 10,
             ),
             TextField(
-              obscureText: true,
+              controller: passwordTextEditingController,
+              obscureText: obscureText,
               onChanged: (value) {},
               decoration: InputDecoration(
                 suffixIcon: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      obscureText ? obscureText = false : obscureText = true;
+                    });
+                  },
                   icon: const Icon(Icons.remove_red_eye),
                 ),
                 filled: true,
@@ -81,14 +98,29 @@ class LoginComponent extends StatelessWidget {
             Row(
               children: [
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    setState(() {
+                      rememberMe ? rememberMe = false : rememberMe = true;
+                    });
+                  },
                   child: Container(
                     width: 20,
                     height: 20,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: rememberMe ? Colors.teal : Colors.white,
                       borderRadius: BorderRadius.circular(3),
-                      border: Border.all(width: 1.0, color: Colors.grey),
+                      border: Border.all(
+                          width: 1.0,
+                          color: rememberMe ? Colors.teal : Colors.grey),
+                    ),
+                    child: Center(
+                      child: rememberMe
+                          ? const Icon(
+                              Icons.check,
+                              color: Colors.white,
+                              size: 10,
+                            )
+                          : const SizedBox(),
                     ),
                   ),
                 ),
@@ -132,7 +164,7 @@ class LoginComponent extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                createAccount.call();
+                widget.createAccount.call();
               },
               child: RichText(
                 text: const TextSpan(

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:student_clearance/components/OfficersComponent.dart';
 import 'package:student_clearance/components/RequestsComponent.dart';
 import 'package:student_clearance/constants/pages.dart';
+import 'package:student_clearance/pages/welcome.dart';
 import 'package:student_clearance/providers/application.dart';
 
 import '../components/ApprovedRequestsComponent.dart';
@@ -226,7 +227,14 @@ class _HomePageState extends State<HomePage> {
                             width: 30,
                           ),
                           InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const WelcomePage(),
+                                ),
+                              );
+                            },
                             hoverColor: Colors.white,
                             child: Row(
                               children: const [
