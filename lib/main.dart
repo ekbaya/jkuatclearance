@@ -4,10 +4,14 @@ import 'package:student_clearance/constants/style.dart';
 import 'package:student_clearance/pages/welcome.dart';
 import 'package:student_clearance/providers/application.dart';
 import 'package:url_strategy/url_strategy.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-import 'pages/home.dart';
-
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   setPathUrlStrategy();
   runApp(
     MultiProvider(

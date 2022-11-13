@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "604541592319",
+    "project_id": "students-clearence",
+    "storage_bucket": "students-clearence.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:604541592319:android:072b1129ba4a7f61c0e2ca",
+        "android_client_info": {
+          "package_name": "com.example.student_clearance"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "604541592319-iajs3bc2371uq83k0ue4tj0sfcmri45f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSgshBxBaijD1dPCViXXUl7Y5HyxADb1Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "604541592319-iajs3bc2371uq83k0ue4tj0sfcmri45f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
