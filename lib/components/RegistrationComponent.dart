@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:select_form_field/select_form_field.dart';
+import 'package:student_clearance/controllers/authcontroller.dart';
+import 'package:student_clearance/models/account.dart';
 
-import 'package:student_clearance/pages/home.dart';
 import 'package:student_clearance/widgets/RequiredLabel.dart';
 
 class RegistrationComponent extends StatefulWidget {
@@ -419,13 +420,26 @@ class _RegistrationComponentState extends State<RegistrationComponent> {
                 height: 20,
               ),
               InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const HomePage(),
-                    ),
-                  );
+                onTap: () async {
+                  if (validate()) {
+                    Account account = Account(
+                      id: "",
+                      firstName: firstNameTextEditingController.text.trim(),
+                      lastName: lastNameTextEditingController.text.trim(),
+                      email: emailTextEditingController.text.trim(),
+                      phone: phoneTextEditingController.text.trim(),
+                      institute: school,
+                      department: department,
+                      role: role,
+                      registrationNo:
+                          registrationTextEditingController.text.trim(),
+                      yearAndLevel:
+                          yearAndLevelTextEditingController.text.trim(),
+                    );
+
+                    await AuthController.registerNewUser(context, account,
+                        passwordTextEditingController.text.trim());
+                  }
                 },
                 child: Container(
                   height: 45,
@@ -469,5 +483,27 @@ class _RegistrationComponentState extends State<RegistrationComponent> {
         ],
       ),
     );
+  }
+
+  bool validate() {
+    if (firstNameTextEditingController.text.isEmpty) {
+      return false;
+    } else if (lastNameTextEditingController.text.isEmpty) {
+      return false;
+    } else if (emailTextEditingController.text.isEmpty) {
+      return false;
+    } else if (phoneTextEditingController.text.isEmpty) {
+      return false;
+    } else if (school.isEmpty) {
+      return false;
+    } else if (department.isEmpty) {
+      return false;
+    } else if (role.isEmpty) {
+      return false;
+    } else if (passwordTextEditingController.text.isEmpty) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }

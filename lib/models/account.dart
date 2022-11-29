@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 class Account {
+  final String id;
   final String firstName;
   final String lastName;
   final String email;
@@ -12,6 +13,7 @@ class Account {
   final String registrationNo;
   final String yearAndLevel;
   Account({
+    required this.id,
     required this.firstName,
     required this.lastName,
     required this.email,
@@ -24,6 +26,7 @@ class Account {
   });
 
   Account copyWith({
+    String? id,
     String? firstName,
     String? lastName,
     String? email,
@@ -35,6 +38,7 @@ class Account {
     String? yearAndLevel,
   }) {
     return Account(
+      id: id ?? this.id,
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
       email: email ?? this.email,
@@ -49,6 +53,7 @@ class Account {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'id': id,
       'firstName': firstName,
       'lastName': lastName,
       'email': email,
@@ -61,17 +66,18 @@ class Account {
     };
   }
 
-  factory Account.fromMap(Map<String, dynamic> map) {
+  factory Account.fromMap(Map<dynamic, dynamic> map) {
     return Account(
-      firstName: map['firstName'] ?? "",
-      lastName: map['lastName'] ?? "",
-      email: map['email'] ?? "",
-      phone: map['phone'] ?? "",
-      institute: map['institute'] ?? "",
-      department: map['department'] ?? "",
-      role: map['role'] ?? "",
-      registrationNo: map['registrationNo'] ?? "",
-      yearAndLevel: map['yearAndLevel'] ?? "",
+      id: map['id'] as String,
+      firstName: map['firstName'] as String,
+      lastName: map['lastName'] as String,
+      email: map['email'] as String,
+      phone: map['phone'] as String,
+      institute: map['institute'] as String,
+      department: map['department'] as String,
+      role: map['role'] as String,
+      registrationNo: map['registrationNo'] as String,
+      yearAndLevel: map['yearAndLevel'] as String,
     );
   }
 
@@ -82,14 +88,15 @@ class Account {
 
   @override
   String toString() {
-    return 'Account(firstName: $firstName, lastName: $lastName, email: $email, phone: $phone, institute: $institute, department: $department, role: $role, registrationNo: $registrationNo, yearAndLevel: $yearAndLevel)';
+    return 'Account(id: $id, firstName: $firstName, lastName: $lastName, email: $email, phone: $phone, institute: $institute, department: $department, role: $role, registrationNo: $registrationNo, yearAndLevel: $yearAndLevel)';
   }
 
   @override
   bool operator ==(covariant Account other) {
     if (identical(this, other)) return true;
 
-    return other.firstName == firstName &&
+    return other.id == id &&
+        other.firstName == firstName &&
         other.lastName == lastName &&
         other.email == email &&
         other.phone == phone &&
@@ -102,7 +109,8 @@ class Account {
 
   @override
   int get hashCode {
-    return firstName.hashCode ^
+    return id.hashCode ^
+        firstName.hashCode ^
         lastName.hashCode ^
         email.hashCode ^
         phone.hashCode ^

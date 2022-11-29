@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:student_clearance/controllers/authcontroller.dart';
 
 import '../pages/home.dart';
 
@@ -137,13 +138,11 @@ class _LoginComponentState extends State<LoginComponent> {
               height: 20,
             ),
             InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const HomePage(),
-                  ),
-                );
+              onTap: () async {
+                await AuthController.loginUser(
+                    context,
+                    emailTextEditingController.text.trim(),
+                    passwordTextEditingController.text.trim());
               },
               child: Container(
                 height: 45,

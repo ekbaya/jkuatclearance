@@ -4,8 +4,11 @@ import 'package:provider/provider.dart';
 import 'package:student_clearance/components/OfficersComponent.dart';
 import 'package:student_clearance/components/RequestsComponent.dart';
 import 'package:student_clearance/constants/pages.dart';
+import 'package:student_clearance/controllers/authcontroller.dart';
+import 'package:student_clearance/models/account.dart';
 import 'package:student_clearance/pages/welcome.dart';
 import 'package:student_clearance/providers/application.dart';
+import 'package:student_clearance/utils/appconfig.dart';
 
 import '../components/ApprovedRequestsComponent.dart';
 import '../components/PageNotFoundComponent.dart';
@@ -19,6 +22,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late Account user;
+  bool accountLoaded = false;
+  @override
+  void initState() {
+    loadUserAccount();
+    super.initState();
+  }
+
+  void loadUserAccount() async {
+    user = await AuthController.getAccount(AppConfig.auth.currentUser!.uid);
+
+    setState(() {
+      accountLoaded = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Application app = Provider.of<Application>(context);
@@ -44,20 +63,22 @@ class _HomePageState extends State<HomePage> {
                   const Divider(
                     color: Colors.grey,
                   ),
-                  const ListTile(
-                    leading: CircleAvatar(
+                  ListTile(
+                    leading: const CircleAvatar(
                       radius: 16,
                       backgroundColor: Colors.white,
                     ),
                     title: Text(
-                      "Neema Mutheu",
-                      style: TextStyle(
+                      accountLoaded
+                          ? "${user.firstName} ${user.lastName}"
+                          : "Loading...",
+                      style: const TextStyle(
                         color: Colors.white,
                       ),
                     ),
                     subtitle: Text(
-                      "Student",
-                      style: TextStyle(color: Colors.white, fontSize: 13),
+                      accountLoaded ? user.role : "Loading...",
+                      style: const TextStyle(color: Colors.white, fontSize: 13),
                     ),
                   ),
                   const Divider(
