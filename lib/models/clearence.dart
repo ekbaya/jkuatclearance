@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:student_clearance/models/account.dart';
+
 class Clearance {
   final String id;
   final String title;
@@ -24,6 +26,7 @@ class Clearance {
   final String registrarComments;
   final String financeStatus;
   final String financeComments;
+  final Account student;
   Clearance({
     required this.id,
     required this.title,
@@ -47,6 +50,7 @@ class Clearance {
     required this.registrarComments,
     required this.financeStatus,
     required this.financeComments,
+    required this.student,
   });
 
   Clearance copyWith({
@@ -72,6 +76,7 @@ class Clearance {
     String? registrarComments,
     String? financeStatus,
     String? financeComments,
+    Account? student,
   }) {
     return Clearance(
       id: id ?? this.id,
@@ -96,6 +101,7 @@ class Clearance {
       registrarComments: registrarComments ?? this.registrarComments,
       financeStatus: financeStatus ?? this.financeStatus,
       financeComments: financeComments ?? this.financeComments,
+      student: student ?? this.student,
     );
   }
 
@@ -123,6 +129,7 @@ class Clearance {
       'registrarComments': registrarComments,
       'financeStatus': financeStatus,
       'financeComments': financeComments,
+      'student': student.toMap(),
     };
   }
 
@@ -150,6 +157,7 @@ class Clearance {
       registrarComments: map['registrarComments'] as String,
       financeStatus: map['financeStatus'] as String,
       financeComments: map['financeComments'] as String,
+      student: Account.fromMap(map['student'] as Map<dynamic, dynamic>),
     );
   }
 
@@ -160,7 +168,7 @@ class Clearance {
 
   @override
   String toString() {
-    return 'Clearance(id: $id, title: $title, description: $description, filepath: $filepath, studentId: $studentId, status: $status, chairmanStatus: $chairmanStatus, chairmanComments: $chairmanComments, facultyStatus: $facultyStatus, facultyComments: $facultyComments, libraryStatus: $libraryStatus, libraryComments: $libraryComments, houseKeeperStatus: $houseKeeperStatus, houseKeeperComments: $houseKeeperComments, deanStatus: $deanStatus, deanComments: $deanComments, sportsStatus: $sportsStatus, sportsComments: $sportsComments, registrarStatus: $registrarStatus, registrarComments: $registrarComments, financeStatus: $financeStatus, financeComments: $financeComments)';
+    return 'Clearance(id: $id, title: $title, description: $description, filepath: $filepath, studentId: $studentId, status: $status, chairmanStatus: $chairmanStatus, chairmanComments: $chairmanComments, facultyStatus: $facultyStatus, facultyComments: $facultyComments, libraryStatus: $libraryStatus, libraryComments: $libraryComments, houseKeeperStatus: $houseKeeperStatus, houseKeeperComments: $houseKeeperComments, deanStatus: $deanStatus, deanComments: $deanComments, sportsStatus: $sportsStatus, sportsComments: $sportsComments, registrarStatus: $registrarStatus, registrarComments: $registrarComments, financeStatus: $financeStatus, financeComments: $financeComments, student: $student)';
   }
 
   @override
@@ -188,7 +196,8 @@ class Clearance {
         other.registrarStatus == registrarStatus &&
         other.registrarComments == registrarComments &&
         other.financeStatus == financeStatus &&
-        other.financeComments == financeComments;
+        other.financeComments == financeComments &&
+        other.student == student;
   }
 
   @override
@@ -214,6 +223,7 @@ class Clearance {
         registrarStatus.hashCode ^
         registrarComments.hashCode ^
         financeStatus.hashCode ^
-        financeComments.hashCode;
+        financeComments.hashCode ^
+        student.hashCode;
   }
 }

@@ -154,21 +154,19 @@ class _ApprovedRequestsComponentState extends State<ApprovedRequestsComponent> {
 
   List<DataRow> approvedForms(List<Clearance> forms) {
     List<DataRow> widgets = [];
-    for (var i = 0; i < forms.length; i++) {
-      Account student =
-          AuthController.getAccount(forms[i].studentId) as Account;
+    for (var index = 0; index < forms.length; index++) {
       widgets.add(
         DataRow(
           cells: [
             DataCell(
-              Text(student.firstName),
+              Text(forms[index].student.firstName),
             ),
             DataCell(
-              Text(student.lastName),
+              Text(forms[index].student.lastName),
             ),
-            DataCell(Text(student.phone)),
-            DataCell(Text(student.registrationNo)),
-            DataCell(Text(student.yearAndLevel)),
+            DataCell(Text(forms[index].student.phone)),
+            DataCell(Text(forms[index].student.registrationNo)),
+            DataCell(Text(forms[index].student.yearAndLevel)),
             DataCell(
               InkWell(
                 onTap: () async {

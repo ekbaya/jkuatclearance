@@ -332,7 +332,7 @@ class _RequestsComponentState extends State<RequestsComponent> {
                     height: 20,
                   ),
                   InkWell(
-                    onTap: () {
+                    onTap: () async {
                       ClearenceServices clearenceServices = ClearenceServices();
 
                       Clearance clearance = Clearance(
@@ -357,11 +357,14 @@ class _RequestsComponentState extends State<RequestsComponent> {
                           registrarStatus: "pending",
                           registrarComments: "",
                           financeStatus: "pending",
-                          financeComments: "");
+                          financeComments: "",
+                          student: await AuthController.getAccount(
+                              AppConfig.auth.currentUser!.uid));
 
                       ToastDialogue().showToast("Sending request...", 0);
                       clearenceServices.createClearenceRequest(clearance);
                       ToastDialogue().showToast("Success", 0);
+                      // ignore: use_build_context_synchronously
                       Navigator.pop(context);
                     },
                     child: Container(
@@ -726,6 +729,9 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                         };
                                         clearenceServices
                                             .updateClearanceData(data);
+                                        clearenceServices
+                                            .updateClearenceFormStatus(
+                                                clearance.id);
                                         ToastDialogue().showToast("Success", 0);
                                         Navigator.pop(context);
                                         break;
@@ -738,6 +744,9 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                         };
                                         clearenceServices
                                             .updateClearanceData(data);
+                                        clearenceServices
+                                            .updateClearenceFormStatus(
+                                                clearance.id);
                                         ToastDialogue().showToast("Success", 0);
                                         Navigator.pop(context);
                                         break;
@@ -751,6 +760,9 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                         clearenceServices
                                             .updateClearanceData(data);
                                         ToastDialogue().showToast("Success", 0);
+                                        clearenceServices
+                                            .updateClearenceFormStatus(
+                                                clearance.id);
                                         Navigator.pop(context);
                                         break;
                                       case "director of sports & games":
@@ -762,6 +774,9 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                         };
                                         clearenceServices
                                             .updateClearanceData(data);
+                                        clearenceServices
+                                            .updateClearenceFormStatus(
+                                                clearance.id);
                                         ToastDialogue().showToast("Success", 0);
                                         Navigator.pop(context);
                                         break;
@@ -774,6 +789,9 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                         };
                                         clearenceServices
                                             .updateClearanceData(data);
+                                        clearenceServices
+                                            .updateClearenceFormStatus(
+                                                clearance.id);
                                         ToastDialogue().showToast("Success", 0);
                                         Navigator.pop(context);
                                         break;
@@ -786,6 +804,9 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                         };
                                         clearenceServices
                                             .updateClearanceData(data);
+                                        clearenceServices
+                                            .updateClearenceFormStatus(
+                                                clearance.id);
                                         ToastDialogue().showToast("Success", 0);
                                         Navigator.pop(context);
                                         break;
@@ -798,6 +819,9 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                         };
                                         clearenceServices
                                             .updateClearanceData(data);
+                                        clearenceServices
+                                            .updateClearenceFormStatus(
+                                                clearance.id);
                                         ToastDialogue().showToast("Success", 0);
                                         Navigator.pop(context);
                                         break;
@@ -839,6 +863,9 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                         };
                                         clearenceServices
                                             .updateClearanceData(data);
+                                        clearenceServices
+                                            .updateClearenceFormStatus(
+                                                clearance.id);
                                         ToastDialogue().showToast("Success", 0);
                                         Navigator.pop(context);
                                         break;
@@ -851,6 +878,9 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                         };
                                         clearenceServices
                                             .updateClearanceData(data);
+                                        clearenceServices
+                                            .updateClearenceFormStatus(
+                                                clearance.id);
                                         ToastDialogue().showToast("Success", 0);
                                         Navigator.pop(context);
                                         break;
@@ -863,6 +893,9 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                         };
                                         clearenceServices
                                             .updateClearanceData(data);
+                                        clearenceServices
+                                            .updateClearenceFormStatus(
+                                                clearance.id);
                                         ToastDialogue().showToast("Success", 0);
                                         Navigator.pop(context);
                                         break;
@@ -875,6 +908,9 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                         };
                                         clearenceServices
                                             .updateClearanceData(data);
+                                        clearenceServices
+                                            .updateClearenceFormStatus(
+                                                clearance.id);
                                         ToastDialogue().showToast("Success", 0);
                                         Navigator.pop(context);
                                         break;
@@ -887,6 +923,9 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                         };
                                         clearenceServices
                                             .updateClearanceData(data);
+                                        clearenceServices
+                                            .updateClearenceFormStatus(
+                                                clearance.id);
                                         ToastDialogue().showToast("Success", 0);
                                         Navigator.pop(context);
                                         break;
@@ -899,6 +938,9 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                         };
                                         clearenceServices
                                             .updateClearanceData(data);
+                                        clearenceServices
+                                            .updateClearenceFormStatus(
+                                                clearance.id);
                                         ToastDialogue().showToast("Success", 0);
                                         Navigator.pop(context);
                                         break;
@@ -911,6 +953,9 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                         };
                                         clearenceServices
                                             .updateClearanceData(data);
+                                        clearenceServices
+                                            .updateClearenceFormStatus(
+                                                clearance.id);
                                         ToastDialogue().showToast("Success", 0);
                                         Navigator.pop(context);
                                         break;

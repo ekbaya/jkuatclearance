@@ -11,14 +11,14 @@ class ClearenceServices {
         .set(form.toMap());
   }
 
-  void updateClearanceData(Map<String, dynamic> values) {
+  void updateClearanceData(Map<String, dynamic> values) async {
     AppConfig.firebaseFiretore
         .collection(collection)
         .doc(values['id'])
         .update(values);
 
     //update request status
-    updateClearenceFormStatus(values['id']);
+    await updateClearenceFormStatus(values['id']);
   }
 
   Future<Clearance> getClearanceById(String id) => AppConfig.firebaseFiretore
@@ -29,7 +29,7 @@ class ClearenceServices {
         return Clearance.fromMap(doc.data() as Map<dynamic, dynamic>);
       });
 
-  updateClearenceFormStatus(String id) async {
+  Future updateClearenceFormStatus(String id) async {
     final clearance = await getClearanceById(id);
 
     if (clearance.chairmanStatus == "completed" &&
