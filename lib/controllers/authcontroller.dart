@@ -7,12 +7,12 @@ import 'package:student_clearance/utils/appconfig.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../pages/home.dart';
-import '../utils/loader.dart';
 import '../utils/toastDialog.dart';
 
 class AuthController {
   static registerNewUser(
       BuildContext context, Account account, String password) async {
+    ToastDialogue().showToast("Please wait...", 0);
     try {
       // Loader().showCustomDialog(context, "Registering");
       UserCredential userCredential = await AppConfig.auth
@@ -50,6 +50,7 @@ class AuthController {
   }
 
   static loginUser(BuildContext context, String email, String password) async {
+    ToastDialogue().showToast("Please wait...", 0);
     try {
       // Loader().showCustomDialog(context, "Signing in...");
       final UserCredential userCredential = (await AppConfig.auth

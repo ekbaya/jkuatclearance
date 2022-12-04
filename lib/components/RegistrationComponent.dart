@@ -73,6 +73,10 @@ class _RegistrationComponentState extends State<RegistrationComponent> {
     {
       'value': 'dean',
       'label': 'Dean',
+    },
+    {
+      'value': 'libray',
+      'label': 'Library',
     }
   ];
   final List<Map<String, dynamic>> roles = [
