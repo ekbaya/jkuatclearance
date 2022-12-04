@@ -718,7 +718,10 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                         Map<String, dynamic> data = {
                                           "id": clearance.id,
                                           "chairmanStatus": "rejected",
+                                          "facultyStatus": "rejected",
                                           "chairmanComments":
+                                              commentsController.text.trim(),
+                                          "facultyComments":
                                               commentsController.text.trim(),
                                         };
                                         clearenceServices
@@ -827,8 +830,11 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                       case "charperson":
                                         Map<String, dynamic> data = {
                                           "id": clearance.id,
-                                          "chairmanStatus": "completed",
+                                          "chairmanStatus": "competed",
+                                          "facultyStatus": "competed",
                                           "chairmanComments":
+                                              commentsController.text.trim(),
+                                          "facultyComments":
                                               commentsController.text.trim(),
                                         };
                                         clearenceServices
