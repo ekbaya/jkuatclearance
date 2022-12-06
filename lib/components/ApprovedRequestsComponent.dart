@@ -1,6 +1,5 @@
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
-import 'package:student_clearance/models/account.dart';
 import 'package:student_clearance/models/clearence.dart';
 // ignore: depend_on_referenced_packages
 import 'package:syncfusion_flutter_pdf/pdf.dart';
@@ -19,7 +18,7 @@ class ApprovedRequestsComponent extends StatefulWidget {
 }
 
 class _ApprovedRequestsComponentState extends State<ApprovedRequestsComponent> {
-  String userRole = "student";
+  String userRole = "";
 
   @override
   void initState() {
@@ -96,18 +95,65 @@ class _ApprovedRequestsComponentState extends State<ApprovedRequestsComponent> {
                             if (snapshot.hasData) {
                               final items = snapshot.data!.docs;
                               items.map((e) {
-                                if (userRole == "student") {
-                                  if (Clearance.fromMap(e.data()).studentId ==
-                                          AppConfig.auth.currentUser!.uid &&
-                                      Clearance.fromMap(e.data()).status ==
-                                          "completed") {
-                                    forms.add(Clearance.fromMap(e.data()));
-                                  }
-                                } else {
-                                  if (Clearance.fromMap(e.data()).status ==
-                                      "completed") {
-                                    forms.add(Clearance.fromMap(e.data()));
-                                  }
+                                switch (userRole) {
+                                  case "student":
+                                    if (Clearance.fromMap(e.data()).studentId ==
+                                            AppConfig.auth.currentUser!.uid &&
+                                        Clearance.fromMap(e.data()).status ==
+                                            "completed") {
+                                      forms.add(Clearance.fromMap(e.data()));
+                                    }
+                                    break;
+                                  case "librarian":
+                                    if (Clearance.fromMap(e.data())
+                                            .libraryStatus ==
+                                        "completed") {
+                                      forms.add(Clearance.fromMap(e.data()));
+                                    }
+                                    break;
+                                  case "dean of students":
+                                    if (Clearance.fromMap(e.data())
+                                            .deanStatus ==
+                                        "completed") {
+                                      forms.add(Clearance.fromMap(e.data()));
+                                    }
+                                    break;
+                                  case "director of sports & games":
+                                    if (Clearance.fromMap(e.data())
+                                            .sportsStatus ==
+                                        "completed") {
+                                      forms.add(Clearance.fromMap(e.data()));
+                                    }
+                                    break;
+                                  case "house keeper":
+                                    if (Clearance.fromMap(e.data())
+                                            .houseKeeperStatus ==
+                                        "completed") {
+                                      forms.add(Clearance.fromMap(e.data()));
+                                    }
+                                    break;
+                                  case "chairperson":
+                                    if (Clearance.fromMap(e.data())
+                                            .facultyStatus ==
+                                        "completed") {
+                                      forms.add(Clearance.fromMap(e.data()));
+                                    }
+                                    break;
+                                  case "registrar":
+                                    if (Clearance.fromMap(e.data())
+                                            .registrarStatus ==
+                                        "completed") {
+                                      forms.add(Clearance.fromMap(e.data()));
+                                    }
+                                    break;
+                                  case "students’ finance office":
+                                    if (Clearance.fromMap(e.data())
+                                            .financeStatus ==
+                                        "completed") {
+                                      forms.add(Clearance.fromMap(e.data()));
+                                    }
+                                    break;
+                                  default:
                                 }
                               }).toList();
                             }

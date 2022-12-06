@@ -1,10 +1,16 @@
+import 'dart:developer';
+
 import 'package:data_table_2/data_table_2.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker_web/image_picker_web.dart';
 import 'package:student_clearance/controllers/authcontroller.dart';
 import 'package:student_clearance/models/account.dart';
 import 'package:student_clearance/models/clearence.dart';
 import 'package:student_clearance/services/clearence.dart';
 import 'package:student_clearance/utils/appconfig.dart';
+import 'package:universal_io/io.dart';
 
 import '../utils/toastDialog.dart';
 
@@ -17,6 +23,7 @@ class RequestsComponent extends StatefulWidget {
 
 class _RequestsComponentState extends State<RequestsComponent> {
   String userRole = "student";
+
   @override
   void initState() {
     getUser();
@@ -120,13 +127,63 @@ class _RequestsComponentState extends State<RequestsComponent> {
                             if (snapshot.hasData) {
                               final items = snapshot.data!.docs;
                               items.map((e) {
-                                if (userRole == "student") {
-                                  if (Clearance.fromMap(e.data()).studentId ==
-                                      AppConfig.auth.currentUser!.uid) {
-                                    forms.add(Clearance.fromMap(e.data()));
-                                  }
-                                } else {
-                                  forms.add(Clearance.fromMap(e.data()));
+                                switch (userRole) {
+                                  case "student":
+                                    if (Clearance.fromMap(e.data()).studentId ==
+                                        AppConfig.auth.currentUser!.uid) {
+                                      forms.add(Clearance.fromMap(e.data()));
+                                    }
+                                    break;
+                                  case "librarian":
+                                    if (Clearance.fromMap(e.data())
+                                            .libraryStatus !=
+                                        "completed") {
+                                      forms.add(Clearance.fromMap(e.data()));
+                                    }
+                                    break;
+                                  case "dean of students":
+                                    if (Clearance.fromMap(e.data())
+                                            .deanStatus !=
+                                        "completed") {
+                                      forms.add(Clearance.fromMap(e.data()));
+                                    }
+                                    break;
+                                  case "director of sports & games":
+                                    if (Clearance.fromMap(e.data())
+                                            .sportsStatus !=
+                                        "completed") {
+                                      forms.add(Clearance.fromMap(e.data()));
+                                    }
+                                    break;
+                                  case "house keeper":
+                                    if (Clearance.fromMap(e.data())
+                                            .houseKeeperStatus !=
+                                        "completed") {
+                                      forms.add(Clearance.fromMap(e.data()));
+                                    }
+                                    break;
+                                  case "chairperson":
+                                    if (Clearance.fromMap(e.data())
+                                            .chairmanStatus !=
+                                        "completed") {
+                                      forms.add(Clearance.fromMap(e.data()));
+                                    }
+                                    break;
+                                  case "registrar":
+                                    if (Clearance.fromMap(e.data())
+                                            .registrarStatus !=
+                                        "completed") {
+                                      forms.add(Clearance.fromMap(e.data()));
+                                    }
+                                    break;
+                                  case "students’ finance office":
+                                    if (Clearance.fromMap(e.data())
+                                            .financeStatus !=
+                                        "completed") {
+                                      forms.add(Clearance.fromMap(e.data()));
+                                    }
+                                    break;
+                                  default:
                                 }
                               }).toList();
                             }
@@ -196,199 +253,270 @@ class _RequestsComponentState extends State<RequestsComponent> {
           builder: (context) {
             final titleController = TextEditingController();
             final descriptionController = TextEditingController();
-            return SizedBox(
-              height: 450,
-              width: 500,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    color: Colors.teal,
-                    height: 50,
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          width: 120,
-                          child: Row(
-                            children: const [
-                              Icon(
-                                Icons.add_circle,
-                                color: Colors.white,
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                "Add Request",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ],
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: const Icon(Icons.close),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: Text(
-                      "Request Title",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: TextField(
-                      controller: titleController,
-                      onChanged: (value) {},
-                      decoration: const InputDecoration(
-                        hintText: 'Clearance',
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: Text(
-                      "Request Description",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: TextField(
-                      controller: descriptionController,
-                      onChanged: (value) {},
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: Text(
-                      "Send Proof of payment",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 50,
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: InkWell(
-                            onTap: () {},
-                            child: Container(
-                              height: 30,
-                              decoration: BoxDecoration(
-                                  color: Colors.tealAccent,
-                                  border: Border.all(color: Colors.tealAccent),
-                                  borderRadius: BorderRadius.circular(3)),
-                              child: const Center(child: Text("Choose file")),
+            late File image;
+            String filePath = "No file chosen";
+            return StatefulBuilder(builder: (BuildContext context,
+                StateSetter setState /*You can rename this!*/) {
+              return SizedBox(
+                height: 450,
+                width: 500,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      color: Colors.teal,
+                      height: 50,
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: 120,
+                            child: Row(
+                              children: const [
+                                Icon(
+                                  Icons.add_circle,
+                                  color: Colors.white,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  "Add Request",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ],
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        const Expanded(flex: 4, child: Text("No file chosen")),
-                      ],
+                          IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: const Icon(Icons.close),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  InkWell(
-                    onTap: () async {
-                      ClearenceServices clearenceServices = ClearenceServices();
-
-                      Clearance clearance = Clearance(
-                          id: DateTime.now().millisecondsSinceEpoch.toString(),
-                          title: titleController.text.trim(),
-                          description: descriptionController.text.trim(),
-                          filepath: "",
-                          studentId: AppConfig.auth.currentUser!.uid,
-                          status: "in progress",
-                          chairmanStatus: "pending",
-                          chairmanComments: "",
-                          facultyStatus: "pending",
-                          facultyComments: "",
-                          libraryStatus: "pending",
-                          libraryComments: "",
-                          houseKeeperStatus: "pending",
-                          houseKeeperComments: "",
-                          deanStatus: "pending",
-                          deanComments: "",
-                          sportsStatus: "pending",
-                          sportsComments: "",
-                          registrarStatus: "pending",
-                          registrarComments: "",
-                          financeStatus: "pending",
-                          financeComments: "",
-                          student: await AuthController.getAccount(
-                              AppConfig.auth.currentUser!.uid));
-
-                      ToastDialogue().showToast("Sending request...", 0);
-                      clearenceServices.createClearenceRequest(clearance);
-                      ToastDialogue().showToast("Success", 0);
-                      // ignore: use_build_context_synchronously
-                      Navigator.pop(context);
-                    },
-                    child: Container(
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(
+                        "Request Title",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: TextField(
+                        controller: titleController,
+                        onChanged: (value) {},
+                        decoration: const InputDecoration(
+                          hintText: 'Clearance',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(
+                        "Request Description",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: TextField(
+                        controller: descriptionController,
+                        onChanged: (value) {},
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(
+                        "Send Proof of payment",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
                       width: MediaQuery.of(context).size.width,
                       height: 50,
                       margin: const EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(
-                        color: Colors.teal,
-                        borderRadius: BorderRadius.circular(3),
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(5),
                       ),
-                      child: const Center(
-                        child: Text(
-                          "Submit your clearance Request",
-                          style: TextStyle(color: Colors.white),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: InkWell(
+                              onTap: () async {
+                                //pick file
+                                File? image1 =
+                                    (await ImagePickerWeb.getImageAsFile())
+                                        as File?;
+                                // upload(picture);
+                                if (image1!.path.isNotEmpty) {
+                                  // ignore: use_build_context_synchronously
+                                  final path = 'attachments/${image1.path}';
+
+                                  setState(() {
+                                    image = image1;
+                                    filePath = path;
+                                  });
+                                }
+                              },
+                              child: Container(
+                                height: 30,
+                                decoration: BoxDecoration(
+                                    color: Colors.tealAccent,
+                                    border:
+                                        Border.all(color: Colors.tealAccent),
+                                    borderRadius: BorderRadius.circular(3)),
+                                child: const Center(child: Text("Choose File")),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(flex: 4, child: Text(filePath)),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    InkWell(
+                      onTap: () async {
+                        ClearenceServices clearenceServices =
+                            ClearenceServices();
+                        if (filePath == "No file chosen") {
+                          Clearance clearance = Clearance(
+                              id: DateTime.now()
+                                  .millisecondsSinceEpoch
+                                  .toString(),
+                              title: titleController.text.trim(),
+                              description: descriptionController.text.trim(),
+                              filepath: "",
+                              studentId: AppConfig.auth.currentUser!.uid,
+                              status: "in progress",
+                              chairmanStatus: "pending",
+                              chairmanComments: "",
+                              facultyStatus: "pending",
+                              facultyComments: "",
+                              libraryStatus: "pending",
+                              libraryComments: "",
+                              houseKeeperStatus: "pending",
+                              houseKeeperComments: "",
+                              deanStatus: "pending",
+                              deanComments: "",
+                              sportsStatus: "pending",
+                              sportsComments: "",
+                              registrarStatus: "pending",
+                              registrarComments: "",
+                              financeStatus: "pending",
+                              financeComments: "",
+                              student: await AuthController.getAccount(
+                                  AppConfig.auth.currentUser!.uid));
+
+                          ToastDialogue().showToast("Sending request...", 0);
+                          clearenceServices.createClearenceRequest(clearance);
+                          ToastDialogue().showToast("Success", 0);
+                          // ignore: use_build_context_synchronously
+                          Navigator.pop(context);
+                        } else {
+                          // File file = File(image.path);
+                          // final storageRef =
+                          //     FirebaseStorage.instance.ref().child(filePath);
+                          // UploadTask task = storageRef.putFile(file);
+                          // final snapshot = await task.whenComplete(() {
+                          //   log("File Uploaded==========");
+                          // });
+                          // final fileUrl = await snapshot.ref.getDownloadURL();
+
+                          // if (kDebugMode) {
+                          //   print("Download URL: $fileUrl");
+                          // }
+                          // Clearance clearance = Clearance(
+                          //     id: DateTime.now()
+                          //         .millisecondsSinceEpoch
+                          //         .toString(),
+                          //     title: titleController.text.trim(),
+                          //     description: descriptionController.text.trim(),
+                          //     filepath: fileUrl,
+                          //     studentId: AppConfig.auth.currentUser!.uid,
+                          //     status: "in progress",
+                          //     chairmanStatus: "pending",
+                          //     chairmanComments: "",
+                          //     facultyStatus: "pending",
+                          //     facultyComments: "",
+                          //     libraryStatus: "pending",
+                          //     libraryComments: "",
+                          //     houseKeeperStatus: "pending",
+                          //     houseKeeperComments: "",
+                          //     deanStatus: "pending",
+                          //     deanComments: "",
+                          //     sportsStatus: "pending",
+                          //     sportsComments: "",
+                          //     registrarStatus: "pending",
+                          //     registrarComments: "",
+                          //     financeStatus: "pending",
+                          //     financeComments: "",
+                          //     student: await AuthController.getAccount(
+                          //         AppConfig.auth.currentUser!.uid));
+
+                          // ToastDialogue().showToast("Sending request...", 0);
+                          // clearenceServices.createClearenceRequest(clearance);
+                          // ToastDialogue().showToast("Success", 0);
+                          // // ignore: use_build_context_synchronously
+                          // Navigator.pop(context);
+                        }
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 50,
+                        margin: const EdgeInsets.symmetric(horizontal: 20),
+                        decoration: BoxDecoration(
+                          color: Colors.teal,
+                          borderRadius: BorderRadius.circular(3),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            "Submit your clearance Request",
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                ],
-              ),
-            );
+                    const SizedBox(
+                      height: 20,
+                    ),
+                  ],
+                ),
+              );
+            });
           },
         ),
       ),
@@ -717,7 +845,7 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                     ToastDialogue()
                                         .showToast("Sending request...", 0);
                                     switch (userRole.toLowerCase()) {
-                                      case "charperson":
+                                      case "chairperson":
                                         Map<String, dynamic> data = {
                                           "id": clearance.id,
                                           "chairmanStatus": "rejected",
@@ -851,11 +979,11 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                     ToastDialogue()
                                         .showToast("Sending request...", 0);
                                     switch (userRole.toLowerCase()) {
-                                      case "charperson":
+                                      case "chairperson":
                                         Map<String, dynamic> data = {
                                           "id": clearance.id,
-                                          "chairmanStatus": "competed",
-                                          "facultyStatus": "competed",
+                                          "chairmanStatus": "completed",
+                                          "facultyStatus": "completed",
                                           "chairmanComments":
                                               commentsController.text.trim(),
                                           "facultyComments":

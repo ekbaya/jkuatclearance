@@ -28,6 +28,10 @@ class _RegistrationComponentState extends State<RegistrationComponent> {
       'label': 'School of Computing and Information Technology',
     },
     {
+      'value': 'cohred',
+      'label': 'COHRED',
+    },
+    {
       'value': 'library',
       'label': 'Library',
     },
@@ -53,6 +57,10 @@ class _RegistrationComponentState extends State<RegistrationComponent> {
     {
       'value': 'it',
       'label': 'Information Technology',
+    },
+    {
+      'value': 'BA',
+      'label': 'Business Administration',
     },
     {
       'value': 'cs',
@@ -101,8 +109,8 @@ class _RegistrationComponentState extends State<RegistrationComponent> {
       'label': 'House Keeper',
     },
     {
-      'value': 'charperson',
-      'label': 'Charperson',
+      'value': 'chairperson',
+      'label': 'Chairperson',
     },
     {
       'value': 'registrar',
