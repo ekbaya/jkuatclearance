@@ -1,8 +1,4 @@
-import 'dart:developer';
-
 import 'package:data_table_2/data_table_2.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker_web/image_picker_web.dart';
 import 'package:student_clearance/controllers/authcontroller.dart';
@@ -23,6 +19,7 @@ class RequestsComponent extends StatefulWidget {
 
 class _RequestsComponentState extends State<RequestsComponent> {
   String userRole = "student";
+  String userDepartment = "";
 
   @override
   void initState() {
@@ -37,6 +34,12 @@ class _RequestsComponentState extends State<RequestsComponent> {
     setState(() {
       userRole = user.role;
     });
+
+    if (userRole == "chairperson" || userRole == "registrar") {
+      setState(() {
+        userDepartment = user.department;
+      });
+    }
   }
 
   @override
@@ -164,15 +167,23 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                     break;
                                   case "chairperson":
                                     if (Clearance.fromMap(e.data())
-                                            .chairmanStatus !=
-                                        "completed") {
+                                                .chairmanStatus !=
+                                            "completed" &&
+                                        Clearance.fromMap(e.data())
+                                                .student
+                                                .department ==
+                                            userDepartment) {
                                       forms.add(Clearance.fromMap(e.data()));
                                     }
                                     break;
                                   case "registrar":
                                     if (Clearance.fromMap(e.data())
-                                            .registrarStatus !=
-                                        "completed") {
+                                                .registrarStatus !=
+                                            "completed" &&
+                                        Clearance.fromMap(e.data())
+                                                .student
+                                                .department ==
+                                            userDepartment) {
                                       forms.add(Clearance.fromMap(e.data()));
                                     }
                                     break;
@@ -439,7 +450,14 @@ class _RequestsComponentState extends State<RequestsComponent> {
                               financeStatus: "pending",
                               financeComments: "",
                               student: await AuthController.getAccount(
-                                  AppConfig.auth.currentUser!.uid));
+                                  AppConfig.auth.currentUser!.uid),
+                              chairmanSignature: '',
+                              deanSignature: '',
+                              financeSignature: '',
+                              houseKeeperSignature: '',
+                              librarianSignature: '',
+                              registrarSignature: '',
+                              sportsSignature: '');
 
                           ToastDialogue().showToast("Sending request...", 0);
                           clearenceServices.createClearenceRequest(clearance);
@@ -854,6 +872,8 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                               commentsController.text.trim(),
                                           "facultyComments":
                                               commentsController.text.trim(),
+                                          "chairmanSignature":
+                                              AppConfig.auth.currentUser!.uid,
                                         };
                                         clearenceServices
                                             .updateClearanceData(data);
@@ -869,6 +889,8 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                           "libraryStatus": "rejected",
                                           "libraryComments":
                                               commentsController.text.trim(),
+                                          "librarianSignature":
+                                              AppConfig.auth.currentUser!.uid,
                                         };
                                         clearenceServices
                                             .updateClearanceData(data);
@@ -884,6 +906,8 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                           "deanStatus": "rejected",
                                           "deanComments":
                                               commentsController.text.trim(),
+                                          "deanSignature":
+                                              AppConfig.auth.currentUser!.uid,
                                         };
                                         clearenceServices
                                             .updateClearanceData(data);
@@ -899,6 +923,8 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                           "sportsStatus": "rejected",
                                           "sportsComments":
                                               commentsController.text.trim(),
+                                          "sportsSignature":
+                                              AppConfig.auth.currentUser!.uid,
                                         };
                                         clearenceServices
                                             .updateClearanceData(data);
@@ -914,6 +940,8 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                           "houseKeeperStatus": "rejected",
                                           "houseKeeperComments":
                                               commentsController.text.trim(),
+                                          "houseKeeperSignature":
+                                              AppConfig.auth.currentUser!.uid,
                                         };
                                         clearenceServices
                                             .updateClearanceData(data);
@@ -929,6 +957,8 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                           "registrarStatus": "rejected",
                                           "registrarComments":
                                               commentsController.text.trim(),
+                                          "registrarSignature":
+                                              AppConfig.auth.currentUser!.uid,
                                         };
                                         clearenceServices
                                             .updateClearanceData(data);
@@ -944,6 +974,8 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                           "financeStatus": "rejected",
                                           "financeComments":
                                               commentsController.text.trim(),
+                                          "financeSignature":
+                                              AppConfig.auth.currentUser!.uid,
                                         };
                                         clearenceServices
                                             .updateClearanceData(data);
@@ -988,6 +1020,8 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                               commentsController.text.trim(),
                                           "facultyComments":
                                               commentsController.text.trim(),
+                                          "chairmanSignature":
+                                              AppConfig.auth.currentUser!.uid,
                                         };
                                         clearenceServices
                                             .updateClearanceData(data);
@@ -1003,6 +1037,8 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                           "libraryStatus": "completed",
                                           "libraryComments":
                                               commentsController.text.trim(),
+                                          "librarianSignature":
+                                              AppConfig.auth.currentUser!.uid,
                                         };
                                         clearenceServices
                                             .updateClearanceData(data);
@@ -1018,6 +1054,8 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                           "deanStatus": "completed",
                                           "deanComments":
                                               commentsController.text.trim(),
+                                          "deanSignature":
+                                              AppConfig.auth.currentUser!.uid,
                                         };
                                         clearenceServices
                                             .updateClearanceData(data);
@@ -1033,6 +1071,8 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                           "sportsStatus": "completed",
                                           "sportsComments":
                                               commentsController.text.trim(),
+                                          "sportsSignature":
+                                              AppConfig.auth.currentUser!.uid,
                                         };
                                         clearenceServices
                                             .updateClearanceData(data);
@@ -1048,6 +1088,8 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                           "houseKeeperStatus": "completed",
                                           "houseKeeperComments":
                                               commentsController.text.trim(),
+                                          "houseKeeperSignature":
+                                              AppConfig.auth.currentUser!.uid,
                                         };
                                         clearenceServices
                                             .updateClearanceData(data);
@@ -1063,6 +1105,8 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                           "registrarStatus": "completed",
                                           "registrarComments":
                                               commentsController.text.trim(),
+                                          "registrarSignature":
+                                              AppConfig.auth.currentUser!.uid,
                                         };
                                         clearenceServices
                                             .updateClearanceData(data);
@@ -1078,6 +1122,8 @@ class _RequestsComponentState extends State<RequestsComponent> {
                                           "financeStatus": "completed",
                                           "financeComments":
                                               commentsController.text.trim(),
+                                          "financeSignature":
+                                              AppConfig.auth.currentUser!.uid,
                                         };
                                         clearenceServices
                                             .updateClearanceData(data);

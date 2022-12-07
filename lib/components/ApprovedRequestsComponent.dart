@@ -106,50 +106,71 @@ class _ApprovedRequestsComponentState extends State<ApprovedRequestsComponent> {
                                     break;
                                   case "librarian":
                                     if (Clearance.fromMap(e.data())
-                                            .libraryStatus ==
-                                        "completed") {
+                                                .libraryStatus ==
+                                            "completed" &&
+                                        Clearance.fromMap(e.data())
+                                                .librarianSignature ==
+                                            AppConfig.auth.currentUser!.uid) {
                                       forms.add(Clearance.fromMap(e.data()));
                                     }
                                     break;
                                   case "dean of students":
                                     if (Clearance.fromMap(e.data())
-                                            .deanStatus ==
-                                        "completed") {
+                                                .deanStatus ==
+                                            "completed" &&
+                                        Clearance.fromMap(e.data())
+                                                .deanSignature ==
+                                            AppConfig.auth.currentUser!.uid) {
                                       forms.add(Clearance.fromMap(e.data()));
                                     }
                                     break;
                                   case "director of sports & games":
                                     if (Clearance.fromMap(e.data())
-                                            .sportsStatus ==
-                                        "completed") {
+                                                .sportsStatus ==
+                                            "completed" &&
+                                        Clearance.fromMap(e.data())
+                                                .sportsSignature ==
+                                            AppConfig.auth.currentUser!.uid) {
                                       forms.add(Clearance.fromMap(e.data()));
                                     }
                                     break;
                                   case "house keeper":
                                     if (Clearance.fromMap(e.data())
-                                            .houseKeeperStatus ==
-                                        "completed") {
+                                                .houseKeeperStatus ==
+                                            "completed" &&
+                                        Clearance.fromMap(e.data())
+                                                .houseKeeperSignature ==
+                                            AppConfig.auth.currentUser!.uid) {
                                       forms.add(Clearance.fromMap(e.data()));
                                     }
                                     break;
                                   case "chairperson":
                                     if (Clearance.fromMap(e.data())
-                                            .facultyStatus ==
-                                        "completed") {
+                                                .facultyStatus ==
+                                            "completed" &&
+                                        Clearance.fromMap(e.data())
+                                                .chairmanSignature ==
+                                            AppConfig.auth.currentUser!.uid) {
                                       forms.add(Clearance.fromMap(e.data()));
                                     }
                                     break;
                                   case "registrar":
                                     if (Clearance.fromMap(e.data())
-                                            .registrarStatus ==
-                                        "completed") {
+                                                .registrarStatus ==
+                                            "completed" &&
+                                        Clearance.fromMap(e.data())
+                                                .registrarSignature ==
+                                            AppConfig.auth.currentUser!.uid) {
                                       forms.add(Clearance.fromMap(e.data()));
                                     }
                                     break;
                                   case "students’ finance office":
                                     if (Clearance.fromMap(e.data())
-                                            .financeStatus ==
-                                        "completed") {
+                                                .financeStatus ==
+                                            "completed" &&
+                                        Clearance.fromMap(e.data())
+                                                .financeSignature ==
+                                            AppConfig.auth.currentUser!.uid) {
                                       forms.add(Clearance.fromMap(e.data()));
                                     }
                                     break;

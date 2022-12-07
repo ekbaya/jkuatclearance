@@ -1,5 +1,6 @@
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
+import 'package:student_clearance/controllers/authcontroller.dart';
 import 'package:student_clearance/models/account.dart';
 
 import '../utils/appconfig.dart';
@@ -12,6 +13,24 @@ class OfficersComponent extends StatefulWidget {
 }
 
 class _OfficersComponentState extends State<OfficersComponent> {
+  String studentDepartment = "";
+  @override
+  void initState() {
+    getStudentDepartment();
+    super.initState();
+  }
+
+  getStudentDepartment() async {
+    final user =
+        await AuthController.getAccount(AppConfig.auth.currentUser!.uid);
+
+    if (user.role == "student") {
+      setState(() {
+        studentDepartment = user.department;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -76,7 +95,27 @@ class _OfficersComponentState extends State<OfficersComponent> {
                                         .role
                                         .toLowerCase() !=
                                     "student") {
-                                  users.add(Account.fromMap(e.data()));
+                                  if (Account.fromMap(e.data())
+                                              .role
+                                              .toLowerCase() ==
+                                          "chairperson" ||
+                                      Account.fromMap(e.data())
+                                              .role
+                                              .toLowerCase() ==
+                                          "registrar") {
+                                    if (studentDepartment.isEmpty) {
+                                      users.add(Account.fromMap(e.data()));
+                                    } else {
+                                      if (Account.fromMap(e.data())
+                                              .department
+                                              .toLowerCase() ==
+                                          studentDepartment) {
+                                        users.add(Account.fromMap(e.data()));
+                                      }
+                                    }
+                                  } else {
+                                    users.add(Account.fromMap(e.data()));
+                                  }
                                 }
                               }).toList();
                             }
