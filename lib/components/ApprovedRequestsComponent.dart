@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:student_clearance/models/clearence.dart';
@@ -237,21 +239,7 @@ class _ApprovedRequestsComponentState extends State<ApprovedRequestsComponent> {
             DataCell(
               InkWell(
                 onTap: () async {
-                  //Load the existing PDF document.
-                  final PdfDocument document = PdfDocument(
-                      inputBytes: File('assets/students-clearance-form.pdf')
-                          .readAsBytesSync());
-                  //Get the existing PDF page.
-                  final PdfPage page = document.pages[0];
-                  //Draw text in the PDF page.
-                  page.graphics.drawString('Hello World!',
-                      PdfStandardFont(PdfFontFamily.helvetica, 12),
-                      brush: PdfSolidBrush(PdfColor(0, 0, 0)),
-                      bounds: const Rect.fromLTWH(0, 0, 150, 20));
-                  //Save the document.
-                  File('assets/output.pdf').writeAsBytes(await document.save());
-                  //Dispose the document.
-                  document.dispose();
+                  downloadFile("assets/students-clearance-form.pdf");
                 },
                 child: Container(
                   width: 100,
@@ -273,5 +261,11 @@ class _ApprovedRequestsComponentState extends State<ApprovedRequestsComponent> {
       );
     }
     return widgets;
+  }
+
+  downloadFile(url) {
+    AnchorElement anchorElement = AnchorElement(href: url);
+    anchorElement.download = "Clearance form";
+    anchorElement.click();
   }
 }
